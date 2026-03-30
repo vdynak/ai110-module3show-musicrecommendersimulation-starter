@@ -1,0 +1,43 @@
+# Recommender Flowchart
+
+Open Markdown Preview for this file to see the diagram rendered.
+
+```mermaid
+flowchart TD
+    %% Stage 1: Inputs
+    subgraph S1[Stage 1 - Input]
+        A1[1) User Preferences<br/>favorite_genre, favorite_mood, target_energy, k]
+        A2[2) Load songs.csv into catalog]
+    end
+
+    %% Stage 2: Per-song scoring loop
+    subgraph S2[Stage 2 - Song Scoring Loop]
+        B1[3) Select next song]
+        B2[4) Score song<br/>+2.0 genre match<br/>+1.0 mood match<br/>+2.0 x energy closeness]
+        B3[5) Store result<br/>(song, score, explanation)]
+        B4{6) More songs?}
+        B1 --> B2 --> B3 --> B4
+        B4 -- Yes --> B1
+    end
+
+    %% Stage 3: Ranking and output
+    subgraph S3[Stage 3 - Ranking Output]
+        C1[7) Sort all songs by score descending]
+        C2[8) Select Top K]
+        C3[9) Return recommendations]
+        C1 --> C2 --> C3
+    end
+
+    A1 --> A2 --> B1
+    B4 -- No --> C1
+
+    classDef input fill:#e8f4ff,stroke:#2b6cb0,stroke-width:1.5px,color:#1a365d;
+    classDef process fill:#e6fffa,stroke:#2c7a7b,stroke-width:1.5px,color:#234e52;
+    classDef decision fill:#fff7e6,stroke:#b7791f,stroke-width:1.5px,color:#744210;
+    classDef output fill:#f0fff4,stroke:#2f855a,stroke-width:1.5px,color:#22543d;
+
+    class A1,A2 input;
+    class B1,B2,B3 process;
+    class B4 decision;
+    class C1,C2,C3 output;
+```

@@ -17,17 +17,47 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
-Explain your design in plain language.
+Real-world recommendation systems combine content signals (audio features, metadata), behavior signals (likes, skips, watch time), and collaborative patterns across millions of users. At scale, platforms use layered pipelines: candidate generation to find a small set of likely matches, scoring models to estimate relevance, and ranking rules to balance personalization, freshness, and diversity. This simulation focuses on a transparent content-based approach by matching each song to a user taste profile and prioritizing vibe similarity through weighted feature closeness.
 
-Some prompts to answer:
+Song features used in this simulation:
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+- id
+- title
+- artist
+- genre
+- mood
+- energy
+- tempo_bpm
+- valence
+- danceability
+- acousticness
 
-You can include a simple diagram or bullet list if helpful.
+UserProfile features used in this simulation:
+
+- favorite_genre
+- favorite_mood
+- target_energy
+- target_valence
+- target_danceability
+- likes_acoustic
+
+Finalized Algorithm Recipe:
+
+1. Input: collect user preferences (`favorite_genre`, `favorite_mood`, `target_energy`) and choose `k`.
+2. Loop through every song in `songs.csv`.
+3. Compute score for one song:
+   - `+2.0` points for exact genre match.
+   - `+1.0` point for exact mood match.
+   - Energy similarity points: `2.0 * (1 - abs(song_energy - target_energy))`.
+4. Save `(song, score, explanation)` for each song.
+5. Ranking rule: sort songs by score from highest to lowest.
+6. Output: return top-`k` songs as recommendations.
+
+Potential Biases to Expect:
+
+- This system may over-prioritize genre and miss cross-genre songs that still match the user mood and energy.
+- Exact mood matching can be too strict, so near moods (for example `focused` vs `chill`) may be underrated.
+- With a small catalog, frequent genres and artists can dominate results.
 
 ---
 
@@ -63,6 +93,55 @@ pytest
 ```
 
 You can add more tests in `tests/test_recommender.py`.
+
+### Recommendation Output Screenshot
+
+Run:
+
+```bash
+python -m src.main
+```
+
+Then paste your screenshot image at `docs/recommendations-terminal.png` and keep this embed:
+
+![Recommendation terminal output](docs/recommendations-terminal.png)
+
+Latest terminal output:
+
+```text
+Loaded songs: 18
+
+=== Top Recommendations ===
+
+1. Sunrise City by Neon Echo
+   Score  : 4.96
+   Reasons:
+   - genre match (+2.0)
+   - mood match (+1.0)
+   - energy similarity (+1.96)
+
+2. Gym Hero by Max Pulse
+   Score  : 3.74
+   Reasons:
+   - genre match (+2.0)
+   - energy similarity (+1.74)
+
+3. Rooftop Lights by Indigo Parade
+   Score  : 2.92
+   Reasons:
+   - mood match (+1.0)
+   - energy similarity (+1.92)
+
+4. Golden Market by Kito Avenue
+   Score  : 1.98
+   Reasons:
+   - energy similarity (+1.98)
+
+5. Neon Afterhours by Velvet Circuit
+   Score  : 1.92
+   Reasons:
+   - energy similarity (+1.92)
+```
 
 ---
 
