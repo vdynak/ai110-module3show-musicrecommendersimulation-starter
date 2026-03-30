@@ -1,0 +1,159 @@
+Loaded songs: 18
+
+=== High-Energy Pop ===
+Preferences: genre=pop, mood=happy, energy=0.85
+
+1. Sunrise City by Neon Echo
+   Score  : 5.88
+   Reasons:
+   - genre match (+1.0)
+   - mood match (+1.0)
+   - energy similarity (+3.88)
+
+2. Gym Hero by Max Pulse
+   Score  : 4.68
+   Reasons:
+   - genre match (+1.0)
+   - energy similarity (+3.68)
+
+3. Rooftop Lights by Indigo Parade
+   Score  : 4.64
+   Reasons:
+   - mood match (+1.0)
+   - energy similarity (+3.64)
+
+4. Neon Afterhours by Velvet Circuit
+   Score  : 3.96
+   Reasons:
+   - energy similarity (+3.96)
+
+5. Barrio Lights by Luna Norte
+   Score  : 3.88
+   Reasons:
+   - energy similarity (+3.88)
+
+
+=== Chill Lofi ===
+Preferences: genre=lofi, mood=chill, energy=0.35
+
+1. Library Rain by Paper Lanterns
+   Score  : 6.00
+   Reasons:
+   - genre match (+1.0)
+   - mood match (+1.0)
+   - energy similarity (+4.00)
+
+2. Midnight Coding by LoRoom
+   Score  : 5.72
+   Reasons:
+   - genre match (+1.0)
+   - mood match (+1.0)
+   - energy similarity (+3.72)
+
+3. Focus Flow by LoRoom
+   Score  : 4.80
+   Reasons:
+   - genre match (+1.0)
+   - energy similarity (+3.80)
+
+4. Spacewalk Thoughts by Orbit Bloom
+   Score  : 4.72
+   Reasons:
+   - mood match (+1.0)
+   - energy similarity (+3.72)
+
+5. Coffee Shop Stories by Slow Stereo
+   Score  : 3.92
+   Reasons:
+   - energy similarity (+3.92)
+
+
+=== Deep Intense Rock ===
+Preferences: genre=rock, mood=intense, energy=0.9
+
+1. Storm Runner by Voltline
+   Score  : 5.96
+   Reasons:
+   - genre match (+1.0)
+   - mood match (+1.0)
+   - energy similarity (+3.96)
+
+2. Gym Hero by Max Pulse
+   Score  : 4.88
+   Reasons:
+   - mood match (+1.0)
+   - energy similarity (+3.88)
+
+3. Barrio Lights by Luna Norte
+   Score  : 3.92
+   Reasons:
+   - energy similarity (+3.92)
+
+4. Iron Anthem by Black Relay
+   Score  : 3.80
+   Reasons:
+   - energy similarity (+3.80)
+
+5. Neon Afterhours by Velvet Circuit
+   Score  : 3.76
+   Reasons:
+   - energy similarity (+3.76)
+
+
+=== Edge Case - Conflicting Sad High Energy ===
+Preferences: genre=ambient, mood=sad, energy=0.9
+
+1. Storm Runner by Voltline
+   Score  : 3.96
+   Reasons:
+   - energy similarity (+3.96)
+
+2. Barrio Lights by Luna Norte
+   Score  : 3.92
+   Reasons:
+   - energy similarity (+3.92)
+
+3. Gym Hero by Max Pulse
+   Score  : 3.88
+   Reasons:
+   - energy similarity (+3.88)
+
+4. Iron Anthem by Black Relay
+   Score  : 3.80
+   Reasons:
+   - energy similarity (+3.80)
+
+5. Neon Afterhours by Velvet Circuit
+   Score  : 3.76
+   Reasons:
+   - energy similarity (+3.76)
+
+
+=== Edge Case - Very Low Energy Party Mood ===
+Preferences: genre=house, mood=happy, energy=0.1
+
+1. Glass Horizon by North Hall Orchestra
+   Score  : 3.52
+   Reasons:
+   - energy similarity (+3.52)
+
+2. Spacewalk Thoughts by Orbit Bloom
+   Score  : 3.28
+   Reasons:
+   - energy similarity (+3.28)
+
+3. Winter Lanterns by Hollow Pines
+   Score  : 3.16
+   Reasons:
+   - energy similarity (+3.16)
+
+4. Library Rain by Paper Lanterns
+   Score  : 3.00
+   Reasons:
+   - energy similarity (+3.00)
+
+5. Coffee Shop Stories by Slow Stereo
+   Score  : 2.92
+   Reasons:
+   - energy similarity (+2.92)
+

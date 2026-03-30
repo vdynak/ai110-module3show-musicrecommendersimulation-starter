@@ -2,110 +2,81 @@
 
 ## 1. Model Name  
 
-Give your model a short, descriptive name.  
-Example: **VibeFinder 1.0**  
+**VibeFinder 1.0**
 
 ---
 
-## 2. Intended Use  
+## 2. Goal / Task  
 
-Describe what your recommender is designed to do and who it is for. 
-
-Prompts:  
-
-- What kind of recommendations does it generate  
-- What assumptions does it make about the user  
-- Is this for real users or classroom exploration  
+This model suggests songs from a small catalog.
+It predicts which songs best match a user vibe.
+The vibe is based on genre, mood, and energy target.
 
 ---
 
-## 3. How the Model Works  
+## 3. Data Used  
 
-Explain your scoring approach in simple language.  
-
-Prompts:  
-
-- What features of each song are used (genre, energy, mood, etc.)  
-- What user preferences are considered  
-- How does the model turn those into a score  
-- What changes did you make from the starter logic  
-
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
+The dataset has 18 songs.
+Each song has genre, mood, energy, tempo, valence, danceability, and acousticness.
+I expanded the starter set to include more genres and moods.
+The main limit is size. There are still very few songs per genre.
 
 ---
 
-## 4. Data  
+## 4. Algorithm Summary  
 
-Describe the dataset the model uses.  
-
-Prompts:  
-
-- How many songs are in the catalog  
-- What genres or moods are represented  
-- Did you add or remove data  
-- Are there parts of musical taste missing in the dataset  
+For each song, the model gives points.
+It adds points for genre match and mood match.
+It also adds energy similarity points based on how close song energy is to user energy.
+Then it sorts songs by total score and returns the top 5.
 
 ---
 
-## 5. Strengths  
+## 5. Observed Behavior / Biases  
 
-Where does your system seem to work well  
-
-Prompts:  
-
-- User types for which it gives reasonable results  
-- Any patterns you think your scoring captures correctly  
-- Cases where the recommendations matched your intuition  
+The model is very sensitive to energy.
+This can create an energy filter bubble.
+Songs with close energy can rank high even when mood feels wrong.
+Another issue is that `likes_acoustic` is not used in scoring yet.
 
 ---
 
 ## 6. Limitations and Bias 
 
-Where the system struggles or behaves unfairly. 
-
-Prompts:  
-
-- Features it does not consider  
-- Genres or moods that are underrepresented  
-- Cases where the system overfits to one preference  
-- Ways the scoring might unintentionally favor some users  
+The catalog is small, so many user tastes are underrepresented.
+Exact mood matching is strict and misses near moods.
+The model does not use history, skips, likes, or context.
+Because of that, it can feel repetitive and narrow.
 
 ---
 
 ## 7. Evaluation  
 
-How you checked whether the recommender behaved as expected. 
-
-Prompts:  
-
-- Which user profiles you tested  
-- What you looked for in the recommendations  
-- What surprised you  
-- Any simple tests or comparisons you ran  
-
-No need for numeric metrics unless you created some.
+I tested High-Energy Pop, Chill Lofi, and Deep Intense Rock.
+I also tested edge cases with conflicting mood and energy.
+I compared top 5 results and checked if they felt right.
+One surprise: "Gym Hero" often appeared for Happy Pop users.
+This happens because energy closeness can outweigh mood differences.
 
 ---
 
-## 8. Future Work  
+## 8. Intended Use and Non-Intended Use  
 
-Ideas for how you would improve the model next.  
-
-Prompts:  
-
-- Additional features or preferences  
-- Better ways to explain recommendations  
-- Improving diversity among the top results  
-- Handling more complex user tastes  
+Intended use: classroom simulation and learning recommender basics.
+Intended use: quick CLI demos of scoring and ranking behavior.
+Non-intended use: real music platform decisions.
+Non-intended use: any high-stakes personalization, fairness, or business decisions.
 
 ---
 
-## 9. Personal Reflection  
+## 9. Ideas for Improvement  
 
-A few sentences about your experience.  
+Add acousticness preference into scoring.
+Use softer mood similarity instead of exact mood match only.
+Add diversity rules so top 5 is not always the same style.
 
-Prompts:  
+---
 
-- What you learned about recommender systems  
-- Something unexpected or interesting you discovered  
-- How this changed the way you think about music recommendation apps  
+## 10. Personal Reflection
+
+My biggest learning moment was seeing how one weight change can completely change the top recommendation for edge-case users. AI tools helped me move faster when writing prompts, generating test profiles, and formatting outputs, but I still had to double-check the math and ranking behavior by running the program myself. I was surprised that a simple rule-based scorer could still feel like a real recommender when the output included clear reasons and matched a vibe like high-energy pop. I would extend this project by using acousticness in scoring, adding softer mood matching, and testing a diversity rule so the top results are less repetitive.

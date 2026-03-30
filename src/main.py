@@ -15,20 +15,14 @@ except ImportError:
     from recommender import load_songs, recommend_songs
 
 
-def main() -> None:
-    songs = load_songs("data/songs.csv")
+def print_profile_results(profile_name: str, user_prefs: dict, songs: list, k: int = 5) -> None:
+    """Print top-k recommendations for a named user profile."""
+    recommendations = recommend_songs(user_prefs, songs, k=k)
 
-    # Default profile used for baseline recommendations.
-    user_prefs = {
-        "genre": "pop",
-        "mood": "happy",
-        "energy": 0.8,
-        "likes_acoustic": False,
-    }
+    print(f"\n=== {profile_name} ===")
+    print(f"Preferences: genre={user_prefs['genre']}, mood={user_prefs['mood']}, energy={user_prefs['energy']}")
+    print()
 
-    recommendations = recommend_songs(user_prefs, songs, k=5)
-
-    print("\n=== Top Recommendations ===\n")
     for idx, rec in enumerate(recommendations, start=1):
         song, score, explanation = rec
         reasons = [reason.strip() for reason in explanation.split(";") if reason.strip()]
@@ -38,6 +32,22 @@ def main() -> None:
         for reason in reasons:
             print(f"   - {reason}")
         print()
+
+
+def main() -> None:
+    songs = load_songs("data/songs.csv")
+
+    profiles = {
+        "High-Energy Pop": {"genre": "pop", "mood": "happy", "energy": 0.85},
+        "Chill Lofi": {"genre": "lofi", "mood": "chill", "energy": 0.35},
+        "Deep Intense Rock": {"genre": "rock", "mood": "intense", "energy": 0.90},
+        # Edge cases suggested by system-evaluation prompt style.
+        "Edge Case - Conflicting Sad High Energy": {"genre": "ambient", "mood": "sad", "energy": 0.90},
+        "Edge Case - Very Low Energy Party Mood": {"genre": "house", "mood": "happy", "energy": 0.10},
+    }
+
+    for profile_name, user_prefs in profiles.items():
+        print_profile_results(profile_name, user_prefs, songs, k=5)
 
 
 if __name__ == "__main__":

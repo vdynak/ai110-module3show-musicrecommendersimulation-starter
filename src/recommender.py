@@ -86,15 +86,15 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     song_energy = float(song.get("energy", 0.0))
 
     if song_genre == user_genre and user_genre:
-        score += 2.0
-        reasons.append("genre match (+2.0)")
+        score += 1.0
+        reasons.append("genre match (+1.0)")
 
     if song_mood == user_mood and user_mood:
         score += 1.0
         reasons.append("mood match (+1.0)")
 
     energy_similarity = max(0.0, 1.0 - abs(song_energy - target_energy))
-    energy_points = 2.0 * energy_similarity
+    energy_points = 4.0 * energy_similarity
     score += energy_points
     reasons.append(f"energy similarity (+{energy_points:.2f})")
 

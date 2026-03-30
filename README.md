@@ -143,15 +143,68 @@ Loaded songs: 18
    - energy similarity (+1.92)
 ```
 
+### System Evaluation Profiles
+
+Prompt used for Copilot Chat in a new System Evaluation session with codebase context:
+
+Please review this recommender codebase and suggest adversarial user preference profiles that could expose weaknesses in this scoring logic. The current score uses +2.0 for genre match, +1.0 for mood match, and a continuous energy similarity term. Suggest edge-case profiles with conflicting or unusual preferences (for example very high energy with moods that are underrepresented), and explain what unexpected ranking behavior each profile might reveal.
+
+Profiles evaluated in the CLI:
+
+- High-Energy Pop: genre=pop, mood=happy, energy=0.85
+- Chill Lofi: genre=lofi, mood=chill, energy=0.35
+- Deep Intense Rock: genre=rock, mood=intense, energy=0.90
+- Edge Case - Conflicting Sad High Energy: genre=ambient, mood=sad, energy=0.90
+- Edge Case - Very Low Energy Party Mood: genre=house, mood=happy, energy=0.10
+
+Screenshots of top-5 recommendations per profile:
+
+![High-Energy Pop recommendations](docs/recommendations-high-energy-pop.png)
+
+![Chill Lofi recommendations](docs/recommendations-chill-lofi.png)
+
+![Deep Intense Rock recommendations](docs/recommendations-deep-intense-rock.png)
+
+![Edge Case - Conflicting Sad High Energy recommendations](docs/recommendations-edge-case-conflicting-sad-high-energy.png)
+
+![Edge Case - Very Low Energy Party Mood recommendations](docs/recommendations-edge-case-very-low-energy-party-mood.png)
+
 ---
 
 ## Experiments You Tried
 
-Use this section to document the experiments you ran. For example:
+I compared the recommendations for the **High-Energy Pop** profile to my own musical intuition, and the top result felt correct. The first recommendation was **Sunrise City**, which matches pop (+2.0), matches happy mood (+1.0), and is very close to the target energy of 0.85 (+1.94). Intuitively, this sounds like a track that should rank first for that vibe.
 
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
+Inline Chat prompt used on the top-ranked result:
+
+```text
+Using #file:src/recommender.py and #file:src/main.py, explain why "Sunrise City" ranked #1 for the "High-Energy Pop" profile.
+Break down the final score using current weights:
+- +2.0 for genre match
+- +1.0 for mood match
+- +2.0 * (1 - abs(song_energy - target_energy)) for energy
+Then compare that score to the #2 song and explain the margin.
+```
+
+Result summary from that analysis:
+
+- Sunrise City total = 2.0 (genre) + 1.0 (mood) + 1.94 (energy) = **4.94**
+- Gym Hero total = 2.0 (genre) + 0.0 (mood) + 1.84 (energy) = **3.84**
+- Margin = **1.10**, mostly because Sunrise City gets the extra mood match.
+
+Behavior check for repeated top songs:
+
+- The same song did **not** appear first in every profile, which suggests some diversity.
+- However, the edge-case profile **genre=ambient, mood=sad, energy=0.90** ranked an ambient song first even with poor energy alignment, showing that the +2.0 genre weight can dominate when mood labels are sparse.
+
+Sensitivity test (weight shift):
+
+- Experimental change applied in `score_song`: genre match reduced from `+2.0` to `+1.0`, and energy similarity increased from `2.0 * similarity` to `4.0 * similarity`.
+- Most top-1 recommendations stayed the same for standard profiles (High-Energy Pop, Chill Lofi, Deep Intense Rock).
+- Edge cases changed noticeably:
+   - `ambient/sad/0.90` switched top-1 from **Spacewalk Thoughts** to **Storm Runner**.
+   - `house/happy/0.10` switched top-1 from **Neon Afterhours** to **Glass Horizon**.
+- Conclusion: the change made results mostly **different rather than universally more accurate**, but improved behavior for conflicting profiles by reducing genre lock-in.
 
 ---
 
